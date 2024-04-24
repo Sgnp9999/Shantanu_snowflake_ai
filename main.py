@@ -50,7 +50,7 @@ import streamlit_pdf_reader
 import mistral
 
 st.title("AI ChatBot")
-data_type = st.radio("Select Input Type:", ("Chat", "CSV", "Personal"))
+data_type = st.radio("Select Input Type:", ("Chat", "CSV", "Personal", "Snowflake"))
 
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from langchain_community.vectorstores import faiss
@@ -80,6 +80,24 @@ elif data_type == "Personal":
   if st.button("Send"):
     if question:
         output=mistral.personal_mistral(question=question, db=db)
+        st.write("Output:")
+        st.success(output)
+    else:
+        st.error("Please enter some text to process.")
+
+elif data_type == "Snowflake":
+  question = st.text_input("Ask question:", placeholder="Create a employee table in Snowflake")
+  uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
+  try:
+    text=streamlit_pdf_reader.read_pdf(uploaded_file=uploaded_file)
+    text_splitter = CharacterTextSplitter()
+    texts= text_splitter.split_text(text=text)
+    db = faiss.FAISS.from_texts(texts, embeddings)
+  except:
+    pass
+  if st.button("Send"):
+    if question:
+        output=mistral.personal_mistral_snowflake(question=question, db=db)
         st.write("Output:")
         st.success(output)
     else:

@@ -2,6 +2,7 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 from langchain_community.llms import HuggingFaceEndpoint
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+import shantanu_snow
 import os
 os.environ["HUGGINGFACEHUB_API_TOKEN"] = "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"
 
@@ -24,6 +25,11 @@ def ask_mistral(question):
 def personal_mistral(question, db):
     context=db.similarity_search(query=question ,fetch_k=4)
     return llm_chain.run(question=question, context=context)
+
+def personal_mistral_snowflake(question, db):
+    context=db.similarity_search(query=question ,fetch_k=4)
+    query = llm_chain.run(question=question, context=context)
+    return shantanu_snow.snowflake_run(query)
 
 def mistral_csv(df, question):
     df_agent = create_pandas_dataframe_agent(llm, df)
