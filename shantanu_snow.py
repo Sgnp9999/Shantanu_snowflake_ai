@@ -22,4 +22,4 @@ def snowflake_run_new(query):
     rows = cs.fetchall()
     for row in rows:
         result = row[0]
-    return result
+    return "Done"
