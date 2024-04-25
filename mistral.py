@@ -27,9 +27,13 @@ def personal_mistral(question, db):
     return llm_chain.run(question=question, context=context)
 
 def personal_mistral_snowflake(question, db):
+    result=[]
     context=db.similarity_search(query=question ,fetch_k=4)
-    query = llm_chain.run(question=question, context=context)
-    return shantanu_snow.snowflake_run(query)
+    sql_code = llm_chain.run(question=question, context=context)
+    l1=sql_code.split(";")
+    for query in l1:
+        result.append(shantanu_snow.snowflake_run(query))
+    return str(result)
 
 def mistral_csv(df, question):
     df_agent = create_pandas_dataframe_agent(llm, df)
