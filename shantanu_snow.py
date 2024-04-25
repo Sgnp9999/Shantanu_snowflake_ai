@@ -16,3 +16,10 @@ def snowflake_run(query):
     for row in rows:
         result = row[0]
     return result
+
+def snowflake_run_new(query):
+    cs.execute(f"{query}")
+    rows = cs.fetchall()
+    for row in rows:
+        result = row[0]
+    return result
