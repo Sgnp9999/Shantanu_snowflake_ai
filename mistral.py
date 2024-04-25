@@ -27,7 +27,7 @@ def personal_mistral(question, db):
     return llm_chain.run(question=question, context=context)
 
 def personal_mistral_snowflake(question, db):
-    result=[]
+    result_list=[]
     context=db.similarity_search(query=question ,fetch_k=4)
     result = llm_chain.run(question=question, context=context)
     start_index = result.find("`") + 3  # Add 3 to skip the starting "`" and space
@@ -40,8 +40,8 @@ def personal_mistral_snowflake(question, db):
     l1=sql_code.split(";")
     for query in l1:
         print(query)
-        result.append(shantanu_snow.snowflake_run(query))
-    return str(result)
+        result_list.append(shantanu_snow.snowflake_run(query))
+    return str(result_list)
 
 def mistral_csv(df, question):
     df_agent = create_pandas_dataframe_agent(llm, df)
