@@ -30,8 +30,12 @@ def personal_mistral_snowflake(question, db):
     result=[]
     context=db.similarity_search(query=question ,fetch_k=4)
     sql_code = llm_chain.run(question=question, context=context)
+    print("----")
+    print(sql_code)
+    print("----")
     l1=sql_code.split(";")
     for query in l1:
+        print(query)
         result.append(shantanu_snow.snowflake_run(query))
     return str(result)
 
