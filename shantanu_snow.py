@@ -1,4 +1,5 @@
 import snowflake.connector
+import time
 
 ctx = snowflake.connector.connect(
     user='SHANTANU',
@@ -14,6 +15,7 @@ def snowflake_run(query):
     cs.execute(f"{query}")
     rows = cs.fetchall()
     for row in rows:
+        time.sleep(10)
         result = row[0]
     return result
 
