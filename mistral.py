@@ -29,7 +29,11 @@ def personal_mistral(question, db):
 def personal_mistral_snowflake(question, db):
     result=[]
     context=db.similarity_search(query=question ,fetch_k=4)
-    sql_code = llm_chain.run(question=question, context=context)
+    result = llm_chain.run(question=question, context=context)
+    start_index = result.find("`") + 3  # Add 3 to skip the starting "`" and space
+    end_index = result.rfind("```")  # Use rfind to get the last occurrence
+    sql_code = result[start_index:end_index]
+    sql_code='--'+sql_code
     print("----")
     print(sql_code)
     print("----")
