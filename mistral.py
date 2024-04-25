@@ -40,7 +40,7 @@ def personal_mistral_snowflake(question, db):
     l1=sql_code.split(";")
     for query in l1:
         print(query)
-        result_list.append(shantanu_snow.snowflake_run(query))
+        result_list.append(shantanu_snow.snowflake_run_new(query))
     return str(result_list)
 
 def mistral_csv(df, question):
